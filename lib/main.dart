@@ -15,7 +15,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Calculadora',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const HomePage(title: 'Calculadora'),
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
+                        color: const Color.fromARGB(218, 255, 255, 255),
                         borderRadius: BorderRadius.circular(25),
                         border: Border.all(
                           color: Colors.black,
@@ -100,11 +100,11 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    //  floatingActionButton: FloatingActionButton(
+     //   onPressed: () {},
+      //  tooltip: 'Increment',
+      //  child: const Icon(Icons.add),
+     // ),
     );
   }
 }

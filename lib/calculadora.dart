@@ -1,5 +1,6 @@
 import 'package:expressions/expressions.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class Calculadora extends StatefulWidget {
   const Calculadora({super.key});
@@ -20,6 +21,11 @@ class _CalculadoraState extends State<Calculadora> {
         _resultado = '';
       } else if (valor == '=') {
         _calcularResultado();
+      } else if (valor == 'sen' ||
+          valor == 'cos' ||
+          valor == 'tan' ||
+          valor == '^') {
+        _expressao += valor;
       } else {
         _expressao += valor;
       }
@@ -35,11 +41,33 @@ class _CalculadoraState extends State<Calculadora> {
   }
 
   double _avaliarExpressao(String expressao) {
+    // Substituir operadores personalizados
     expressao = expressao.replaceAll('x', '*');
     expressao = expressao.replaceAll('÷', '/');
+
+    // Verificar e calcular potências
+    if (expressao.contains('^')) {
+      List<String> partes = expressao.split('^');
+      double base = double.parse(partes[0]);
+      double expoente = double.parse(partes[1]);
+      return pow(base, expoente).toDouble();
+    }
+
+    // Verificar e calcular funções trigonométricas
+    if (expressao.startsWith('sen')) {
+      double valor = double.parse(expressao.substring(3));
+      return sin(valor * (pi / 180)); // Converte graus para radianos
+    } else if (expressao.startsWith('cos')) {
+      double valor = double.parse(expressao.substring(3));
+      return cos(valor * (pi / 180));
+    } else if (expressao.startsWith('tan')) {
+      double valor = double.parse(expressao.substring(3));
+      return tan(valor * (pi / 180));
+    }
+
+    // Avaliar expressões matemáticas padrão
     ExpressionEvaluator avaliador = const ExpressionEvaluator();
-    double resultado = avaliador.eval(Expression.parse(expressao), {});
-    return resultado;
+    return avaliador.eval(Expression.parse(expressao), {});
   }
 
   Widget _botao(String valor) {
@@ -88,8 +116,12 @@ class _CalculadoraState extends State<Calculadora> {
               _botao('-'),
               _botao('0'),
               _botao('.'),
-              _botao('='),
+              _botao('^'),
               _botao('+'),
+              _botao('sen '),
+              _botao('cos '),
+              _botao('tan '),
+              _botao('='),
             ],
           ),
         ),
